@@ -7,18 +7,27 @@ const ALL_MOVE_KEY_CODES = [...MOVE_DOWN_KEY_CODES, ...MOVE_LEFT_KEY_CODES, ...M
 
 export class Player {
     constructor(x, y, context, movementLimits) {
+
+        // Скорость персонажа.
         this.velocity = 3;
-        this.radius = 20;
 
+        // Радиус персонажа.
+        this.radius = 50;
 
+        // Кооридинаты персонажа
         this.x = x;
         this.y = y;
+
+
         this.context = context;
+
+        // Позиция курсора.
         this.cursorPosition = {
             x: 0,
             y: 0
         }
 
+        
         this.movementLimits = {
             minX: movementLimits.minX + this.radius,
             maxX: movementLimits.maxX - this.radius,
@@ -33,7 +42,7 @@ export class Player {
 
         this.keyMap = new Map();
         document.addEventListener("keydown", event => this.keyMap.set(event.code, true));
-        document.addEventListener("keyup", event => this.keyMap.set(event.code));
+        document.addEventListener("keyup", event => this.keyMap.delete(event.code));
 
         this.image = new Image();
         this.image.src = "./img/player.png";
@@ -73,17 +82,39 @@ export class Player {
     }
 
     updatePosition() {
-        if (this.shouldMove(MOVE_UP_KEY_CODES)) this.y -= this.velocity;
-        if (this.shouldMove(MOVE_DOWN_KEY_CODES)) this.y += this.velocity;
-        if (this.shouldMove(MOVE_LEFT_KEY_CODES)) this.x -= this.velocity;
-        if (this.shouldMove(MOVE_RIGHT_KEY_CODES)) this.x += this.velocity;
+        if (this.shouldMove(MOVE_UP_KEY_CODES)) {
+            this.y -= this.velocity;
+        }
+
+        if (this.shouldMove(MOVE_DOWN_KEY_CODES)) {
+            this.y += this.velocity;
+        }
+
+        if (this.shouldMove(MOVE_LEFT_KEY_CODES)) {
+            this.x -= this.velocity;
+        }
+
+        if (this.shouldMove(MOVE_RIGHT_KEY_CODES)) {
+            this.x += this.velocity;
+        }
     }
 
     checkPositionLimitAndUpdate() {
-        if (this.y < this.movementLimits.minY) this.Y = this.movementLimits.maxX;
-        if (this.y > this.movementLimits.maxY) this.Y = this.movementLimits.maxY;
-        if (this.x < this.movementLimits.minX) this.X = this.movementLimits.minX;
-        if (this.x > this.movementLimits.maxX) this.X = this.movementLimits.maxX;
+        if (this.y < this.movementLimits.minY) {
+            this.y = this.movementLimits.minY;
+        }
+
+        if (this.y > this.movementLimits.maxY) {
+            this.y = this.movementLimits.maxY;
+        }
+
+        if (this.x < this.movementLimits.minX) {
+            this.x = this.movementLimits.minX;
+        }
+
+        if (this.x > this.movementLimits.maxX) {
+            this.x = this.movementLimits.maxX;
+        }
     }
 
     shouldMove(keys) {
