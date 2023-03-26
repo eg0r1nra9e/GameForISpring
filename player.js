@@ -37,7 +37,7 @@ export class Player {
 
         this.image = new Image();
         this.image.src = "./img/player.png";
-        this.imageWidth = 66;
+        this.imageWidth = 98;
         this.imageHeight = 100;
     }
 
